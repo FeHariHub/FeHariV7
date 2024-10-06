@@ -52,5 +52,13 @@ local myUpDown = ArceusUI:AddUpDown("Select Number", function(myNumericValue, ..
     print("UpDown value:", myNumericValue)
 end, 1, 1, 1, 10) -- Starts at 1, increment by 1, min 1, max 10
 
--- Ui Arceus X
+-- Criando um novo Frame fora do Arceus UI
+local uiPath = ArceusUI:Parent() -- Obtendo o ScreenGui
+local myNewFrame = Instance.new("Frame") -- Criando um novo Frame
+myNewFrame.Size = UDim2.new(0, 300, 0, 200) -- Definindo o tamanho do frame
+myNewFrame.Position = UDim2.new(0.5, -150, 0.5, -100) -- Definindo a posição do frame
+myNewFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Cor de fundo do frame
+myNewFrame.Parent = uiPath -- Adicionando o frame ao ScreenGui
+
+-- Iniciar a UI Arceus X
 ArceusUI:Start()
