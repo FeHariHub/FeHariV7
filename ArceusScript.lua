@@ -47,10 +47,26 @@ local function HoopFarm()
     end
 end
 
+-- Variável para controlar o estado do farming V2
+local isFarmingV2 = false
+
+-- Função de farming V2
+local function HoopFarmV2()
+    local Chr = game.Players.LocalPlayer.Character
+    if Chr and Chr.Parent and Chr:FindFirstChild("HumanoidRootPart") then
+        local children = workspace.Hoops:GetChildren()
+        for _, child in ipairs(children) do
+            if child.Name == "Hoop" then
+                child.CFrame = Chr.HumanoidRootPart.CFrame
+            end    
+        end
+    end
+end
+
 -- Variável para controlar o estado das corridas automáticas
 local AutoRaces = false
 
--- Função para ativar corridas automáticas
+
 local function ToggleAutoRaces(Value)
     AutoRaces = Value
     if AutoRaces then
@@ -74,24 +90,56 @@ local function ToggleAutoRaces(Value)
     end
 end
 
--- Botão
-local myButton = ArceusUI:AddButton("Farmar Corridas", function(...)
+-- Variável para controlar o estado das corridas automáticas solo
+local AutoRacesSolo = false
+
+
+local function ToggleAutoRacesSolo(Value)
+    AutoRacesSolo = Value
+    if AutoRacesSolo then
+        spawn(function()
+            while AutoRacesSolo do
+                pcall(function()
+                    local playerHead = game.Players.LocalPlayer.Character.Head
+                    game:GetService("ReplicatedStorage").rEvents.raceEvent:FireServer("joinRace")
+                    wait(0.00)
+                end)
+                task.wait()
+            end
+        end)
+    end
+end
+
+-- Info Corridas
+local myButton = ArceusUI:AddButton("Farmar Corridas ↓", function(...)
     print("Button was pressed!")
 end)
 
--- Toggle para corridas automáticas
-local raceToggle = ArceusUI:AddToggle("Corridas", function(myStatus, ...)
-    AutoRaces = myStatus -- Atualiza a variável AutoRaces
-    ToggleAutoRaces(myStatus) -- Chama a função com o status atualizado
+-- Corridas Automáticas
+local raceToggle = ArceusUI:AddToggle("Corridas Automáticas", function(myStatus, ...)
+    AutoRaces = myStatus 
+    ToggleAutoRaces(myStatus) 
     print("Status do Toggle de Corridas:", myStatus)
-end, false) -- Status inicial definido como falso
+end, false) 
 
--- Toggle
+-- Toggle para corridas automáticas solo
+local soloRaceToggle = ArceusUI:AddToggle("Bloquear Corridas", function(myStatus, ...)
+    AutoRacesSolo = myStatus 
+    ToggleAutoRacesSolo(myStatus) 
+    print("Status do Toggle de Corridas Solo:", myStatus)
+end, false) 
+
+-- Info Aros
+local myButton = ArceusUI:AddButton("Farmar Aros ↓", function(...)
+    print("Button was pressed!")
+end)
+
+-- Aros V1
 local myToggle = ArceusUI:AddToggle("Aros V1", function(myStatus, ...)
     isFarming = myStatus
     print("Status do Toggle:", myStatus)
 
-    -- Iniciar ou parar o farming com base no status do toggle
+    -- Iniciar ou parar o farming 
     if isFarming then
         while isFarming do
             HoopFarm()
@@ -99,6 +147,20 @@ local myToggle = ArceusUI:AddToggle("Aros V1", function(myStatus, ...)
         end
     end
 end, false) -- Status inicial definido como falso
+
+-- Aros V2
+local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatus, ...)
+    isFarmingV2 = myStatus -- Atualiza a variável isFarmingV2
+    print("Status do Toggle de Farming V2:", myStatus)
+
+    -- Iniciar ou parar o farming 
+    if isFarmingV2 then
+        while isFarmingV2 do
+            HoopFarmV2()
+            task.wait(0.5) -- Ajuste o atraso conforme necessário
+        end
+    end
+end, false) 
 
 -- Combo box
 local myCombo = ArceusUI:AddComboBox("Choose Option", {"Option 1", "Option 2", "Option 3"}, function(myChoice, ...)
