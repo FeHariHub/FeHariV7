@@ -1,7 +1,7 @@
 local ArceusUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/SPDM-Team/ArceusX-V3-Scripts/main/ArceusUI.lua"))()
 
 -- Título Do Script
-ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> V-Corridas 💀 ")
+ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> Corridas")
 
 -- Logo Do Script
 ArceusUI:SetLogo("MyLogo.png", "https://mywebsite/myimage.png")
@@ -47,12 +47,12 @@ local function ToggleAutoRaces(Value)
 end 
 
 -- Botão
-local myButton = ArceusUI:AddButton("Farmar Corridas >", function(...)
+local myButton = ArceusUI:AddButton("Farmar Corridas", function(...)
     print("Button was pressed!")
 end)
 
 -- Toggle para corridas automáticas
-local raceToggle = ArceusUI:AddToggle("Corridas Automáticas", function(myStatus, ...)
+local myToggle = ArceusUI:AddToggle("Corridas Automáticas", function(myStatus, ...)
     ToggleAutoRaces(myStatus)
     print("Status do Toggle de Corridas:", myStatus)
 end, false) -- Status inicial definido como falso
