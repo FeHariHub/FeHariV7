@@ -1,7 +1,7 @@
 local ArceusUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/SPDM-Team/ArceusX-V3-Scripts/main/ArceusUI.lua"))()
 
 -- Título Do Script
-ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> Lendas Da Velocidade ⚡")
+ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> LOS⚡")
 
 -- Logo Do Script
 ArceusUI:SetLogo("MyLogo.png", "https://mywebsite/myimage.png")
