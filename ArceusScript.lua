@@ -1,7 +1,7 @@
 local ArceusUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/SPDM-Team/ArceusX-V3-Scripts/main/ArceusUI.lua"))()
 
 -- Título Do Script
-ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> Lendas Da Velocidade ⚡")
+ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> V-Corridas 💀 ")
 
 -- Logo Do Script
 ArceusUI:SetLogo("MyLogo.png", "https://mywebsite/myimage.png")
@@ -23,10 +23,39 @@ local function HoopFarm()
     end
 end
 
+local function ToggleAutoRaces(Value)
+    AutoRaces = Value
+    if AutoRaces then
+        spawn(function()
+            while AutoRaces do
+                pcall(function()
+                    ReplicatedStorage.rEvents.raceEvent:FireServer("joinRace")
+                    task.wait()
+                    local part = Players.LocalPlayer.Character.HumanoidRootPart
+                    for _, v in pairs(Workspace.raceMaps:GetDescendants()) do 
+                        if v.Name == "Decal" and v.Parent then
+                            firetouchinterest(part, v.Parent, 0)
+                            wait()
+                            firetouchinterest(part, v.Parent, 1)
+                        end
+                    end
+                end)
+                task.wait()
+            end
+        end)
+    end
+end 
+
 -- Botão
-local myButton = ArceusUI:AddButton("Click Me!", function(...)
+local myButton = ArceusUI:AddButton("Farmar Corridas >", function(...)
     print("Button was pressed!")
 end)
+
+-- Toggle para corridas automáticas
+local raceToggle = ArceusUI:AddToggle("Corridas Automáticas", function(myStatus, ...)
+    ToggleAutoRaces(myStatus)
+    print("Status do Toggle de Corridas:", myStatus)
+end, false) -- Status inicial definido como falso
 
 -- Toggle
 local myToggle = ArceusUI:AddToggle("Aros V1", function(myStatus, ...)
@@ -51,22 +80,6 @@ end)
 local myUpDown = ArceusUI:AddUpDown("Select Number", function(myNumericValue, ...)
     print("UpDown value:", myNumericValue)
 end, 1, 1, 1, 10) -- Starts at 1, increment by 1, min 1, max 10
-
--- Criando um novo Frame fora do Arceus UI
-local uiPath = ArceusUI:Parent() -- Obtendo o ScreenGui
-local myNewFrame = Instance.new("Frame") -- Criando um novo Frame
-myNewFrame.Size = UDim2.new(0, 300, 0, 200) -- Definindo o tamanho do frame
-myNewFrame.Position = UDim2.new(0.5, -150, 0.5, -100) -- Definindo a posição do frame
-myNewFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Cor de fundo do frame
-myNewFrame.Parent = uiPath -- Adicionando o frame ao ScreenGui
-
--- Adicionando um TextLabel ao Frame
-local countLabel = Instance.new("Sei la")
-countLabel.Size = UDim2.new(1, 0, 1, 0) -- O label ocupa todo o frame
-countLabel.Text = "Hoops coletados: 0" -- Texto inicial
-countLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Fundo branco
-countLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Cor do texto
-countLabel.Parent = myNewFrame -- Adiciona ao frame
 
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
