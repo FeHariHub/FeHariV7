@@ -47,6 +47,33 @@ local function HoopFarm()
     end
 end
 
+-- Variável para controlar o estado das corridas automáticas
+local AutoRaces = false
+
+-- Função para ativar corridas automáticas
+local function ToggleAutoRaces(Value)
+    AutoRaces = Value
+    if AutoRaces then
+        spawn(function()
+            while AutoRaces do
+                pcall(function()
+                    game:GetService("ReplicatedStorage").rEvents.raceEvent:FireServer("joinRace")
+                    task.wait()
+                    local part = game.Players.LocalPlayer.Character.HumanoidRootPart
+                    for _, v in pairs(game.Workspace.raceMaps:GetDescendants()) do 
+                        if v.Name == "Decal" and v.Parent then
+                            firetouchinterest(part, v.Parent, 0)
+                            wait()
+                            firetouchinterest(part, v.Parent, 1)
+                        end
+                    end
+                end)
+                task.wait()
+            end
+        end)
+    end
+end
+
 -- Botão
 local myButton = ArceusUI:AddButton("Farmar Corridas", function(...)
     print("Button was pressed!")
@@ -54,13 +81,8 @@ end)
 
 -- Toggle para corridas automáticas
 local raceToggle = ArceusUI:AddToggle("Corridas", function(myStatus, ...)
-    ToggleAutoRaces(myStatus)
-    print("Status do Toggle de Corridas:", myStatus)
-end, false) -- Status inicial definido como falso
-
--- Toggle para corridas automáticas
-local myToggle = ArceusUI:AddToggle("Corridas Automáticas", function(myStatus, ...)
-    ToggleAutoRaces(myStatus)
+    AutoRaces = myStatus -- Atualiza a variável AutoRaces
+    ToggleAutoRaces(myStatus) -- Chama a função com o status atualizado
     print("Status do Toggle de Corridas:", myStatus)
 end, false) -- Status inicial definido como falso
 
