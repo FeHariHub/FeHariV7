@@ -190,31 +190,5 @@ local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatu
     end
 end, false) 
 
--- Info Extras
-local myButton = ArceusUI:AddButton("Extras ↓", function(...)
-    print("Button was pressed!")
-end)
-
--- Anti-Kick
-local myButton = ArceusUI:AddButton("Ativar Anti-Kick", function(...)
-    isAntiKickActive = not isAntiKickActive -- Alterna o estado
-    print("AntiKick status:", isAntiKickActive)
-
-    if isAntiKickActive then
-        AntiKick() -- Chama a função se ativado
-    end
-end
-
--- Reduzir Gráficos
-local fpsToggle = ArceusUI:AddToggle("Reduzir Gráficos", function(myStatus, ...)
-    isOptimizing = myStatus 
-    print("Status do Toggle de Otimização de FPS/Ping:", myStatus)
-
-    if isOptimizing then
-        optimizeFpsPing() 
-    end
-end, false) -- Status inicial definido como falso    
-
-
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
