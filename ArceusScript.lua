@@ -110,6 +110,19 @@ local function ToggleAutoRacesSolo(Value)
     end
 end
 
+-- Variável para controlar o estado do AntiKick
+local isAntiKickActive = false
+
+-- Função AntiKick
+local function AntiKick()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:Connect(function()
+        vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+    end)
+end
+
 -- Info Corridas
 local myButton = ArceusUI:AddButton("Farmar Corridas ↓", function(...)
     print("Button was pressed!")
@@ -162,15 +175,15 @@ local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatu
     end
 end, false) 
 
--- Combo box
-local myCombo = ArceusUI:AddComboBox("Choose Option", {"Option 1", "Option 2", "Option 3"}, function(myChoice, ...)
-    print("Combo selection:", myChoice)
-end)
+-- Botão para ativar o AntiKick
+local myButton = ArceusUI:AddButton("Ativar AntiKick", function(...)
+    isAntiKickActive = not isAntiKickActive -- Alterna o estado
+    print("AntiKick status:", isAntiKickActive)
 
--- Up-Down
-local myUpDown = ArceusUI:AddUpDown("Select Number", function(myNumericValue, ...)
-    print("UpDown value:", myNumericValue)
-end, 1, 1, 1, 10) -- Starts at 1, increment by 1, min 1, max 10
+    if isAntiKickActive then
+        AntiKick() -- Chama a função se ativado
+    end
+end)
 
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
