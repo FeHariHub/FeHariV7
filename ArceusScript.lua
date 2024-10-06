@@ -138,26 +138,6 @@ local function optimizeFpsPing()
     end
 end
 
--- Deletar Barreiras Das Corridas
-local isDeletingBarriers = false
-
--- Função para deletar barreiras
-local function deleteBarrier()
-    spawn(function()
-        local boundaries = {
-            game:GetService("Workspace").raceMaps.Grassland.boundaryParts,
-            game:GetService("Workspace").raceMaps.Desert.boundaryParts,
-            game:GetService("Workspace").raceMaps.Magma.boundaryParts
-        }
-        
-        for _, boundary in ipairs(boundaries) do
-            for _, part in pairs(boundary:GetChildren()) do
-                part:Destroy()
-            end
-        end
-    end)
-end
-
 -- Info Corridas
 local myButton = ArceusUI:AddButton("Farmar Corridas ↓", function(...)
     print("Button was pressed!")
@@ -235,15 +215,6 @@ local fpsToggle = ArceusUI:AddToggle("Reduzir Gráficos", function(myStatus, ...
     end
 end, false) -- Status inicial definido como falso    
 
--- Deletar Barreiras
-local barrierToggle = ArceusUI:AddToggle("Deletar Barreiras", function(myStatus, ...)
-    isDeletingBarriers = myStatus -- Atualiza a variável isDeletingBarriers
-    print("Status do Toggle de Remoção de Barreiras:", myStatus)
-
-    if isDeletingBarriers then
-        deleteBarrier()
-    end
-end, false) -- Status inicial definido como falso    
 
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
