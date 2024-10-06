@@ -1,7 +1,7 @@
 local ArceusUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/SPDM-Team/ArceusX-V3-Scripts/main/ArceusUI.lua"))()
 
 -- Título Do Script
-ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> LOS⚡")
+ArceusUI:SetTitle("FeHari Hub <font color='rgb(255, 0, 0)'>|</font> Lendas Da Velocidade ⚡")
 
 -- Logo Do Script
 ArceusUI:SetLogo("MyLogo.png", "https://mywebsite/myimage.png")
@@ -59,6 +59,14 @@ myNewFrame.Size = UDim2.new(0, 300, 0, 200) -- Definindo o tamanho do frame
 myNewFrame.Position = UDim2.new(0.5, -150, 0.5, -100) -- Definindo a posição do frame
 myNewFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Cor de fundo do frame
 myNewFrame.Parent = uiPath -- Adicionando o frame ao ScreenGui
+
+-- Adicionando um TextLabel ao Frame
+local countLabel = Instance.new("Sei la")
+countLabel.Size = UDim2.new(1, 0, 1, 0) -- O label ocupa todo o frame
+countLabel.Text = "Hoops coletados: 0" -- Texto inicial
+countLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Fundo branco
+countLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Cor do texto
+countLabel.Parent = myNewFrame -- Adiciona ao frame
 
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
