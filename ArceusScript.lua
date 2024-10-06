@@ -110,6 +110,54 @@ local function ToggleAutoRacesSolo(Value)
     end
 end
 
+-- Variável para controlar o estado do AntiKick
+local isAntiKickActive = false
+
+-- Função AntiKick
+local function AntiKick()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:Connect(function()
+        vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+    end)
+end
+
+-- Variável para controlar o estado da otimização de FPS/Ping
+local isOptimizing = false
+
+-- Função para otimizar FPS/Ping
+local function optimizeFpsPing()
+    for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
+            v.Material = Enum.Material.SmoothPlastic
+            if v:IsA("Texture") then
+                v:Destroy()
+            end
+        end
+    end
+end
+
+-- Deletar Barreiras Das Corridas
+local isDeletingBarriers = false
+
+-- Função para deletar barreiras
+local function deleteBarrier()
+    spawn(function()
+        local boundaries = {
+            game:GetService("Workspace").raceMaps.Grassland.boundaryParts,
+            game:GetService("Workspace").raceMaps.Desert.boundaryParts,
+            game:GetService("Workspace").raceMaps.Magma.boundaryParts
+        }
+        
+        for _, boundary in ipairs(boundaries) do
+            for _, part in pairs(boundary:GetChildren()) do
+                part:Destroy()
+            end
+        end
+    end)
+end
+
 -- Info Corridas
 local myButton = ArceusUI:AddButton("Farmar Corridas ↓", function(...)
     print("Button was pressed!")
@@ -162,15 +210,40 @@ local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatu
     end
 end, false) 
 
--- Combo box
-local myCombo = ArceusUI:AddComboBox("Choose Option", {"Option 1", "Option 2", "Option 3"}, function(myChoice, ...)
-    print("Combo selection:", myChoice)
+-- Info Extras
+local myButton = ArceusUI:AddButton("Extras ↓", function(...)
+    print("Button was pressed!")
 end)
 
--- Up-Down
-local myUpDown = ArceusUI:AddUpDown("Select Number", function(myNumericValue, ...)
-    print("UpDown value:", myNumericValue)
-end, 1, 1, 1, 10) -- Starts at 1, increment by 1, min 1, max 10
+-- Anti-Kick
+local myButton = ArceusUI:AddButton("Ativar Anti-Kick", function(...)
+    isAntiKickActive = not isAntiKickActive -- Alterna o estado
+    print("AntiKick status:", isAntiKickActive)
+
+    if isAntiKickActive then
+        AntiKick() -- Chama a função se ativado
+    end
+end
+
+-- Reduzir Gráficos
+local fpsToggle = ArceusUI:AddToggle("Reduzir Gráficos", function(myStatus, ...)
+    isOptimizing = myStatus 
+    print("Status do Toggle de Otimização de FPS/Ping:", myStatus)
+
+    if isOptimizing then
+        optimizeFpsPing() 
+    end
+end, false) -- Status inicial definido como falso    
+
+-- Deletar Barreiras
+local barrierToggle = ArceusUI:AddToggle("Deletar Barreiras", function(myStatus, ...)
+    isDeletingBarriers = myStatus -- Atualiza a variável isDeletingBarriers
+    print("Status do Toggle de Remoção de Barreiras:", myStatus)
+
+    if isDeletingBarriers then
+        deleteBarrier()
+    end
+end, false) -- Status inicial definido como falso    
 
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
