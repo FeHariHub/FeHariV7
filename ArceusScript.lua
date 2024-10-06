@@ -110,34 +110,6 @@ local function ToggleAutoRacesSolo(Value)
     end
 end
 
--- Variável para controlar o estado do AntiKick
-local isAntiKickActive = false
-
--- Função AntiKick
-local function AntiKick()
-    local vu = game:GetService("VirtualUser")
-    game:GetService("Players").LocalPlayer.Idled:Connect(function()
-        vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-        wait(1)
-        vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-    end)
-end
-
--- Variável para controlar o estado da otimização de FPS/Ping
-local isOptimizing = false
-
--- Função para otimizar FPS/Ping
-local function optimizeFpsPing()
-    for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-        if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
-            v.Material = Enum.Material.SmoothPlastic
-            if v:IsA("Texture") then
-                v:Destroy()
-            end
-        end
-    end
-end
-
 -- Info Corridas
 local myButton = ArceusUI:AddButton("Farmar Corridas ↓", function(...)
     print("Button was pressed!")
@@ -189,6 +161,32 @@ local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatu
         end
     end
 end, false) 
+
+-- Info Extras
+local myButton = ArceusUI:AddButton("Extras ↓", function(...)
+    print("Button was pressed!")
+end)
+
+-- Anti-Kick
+local myButton = ArceusUI:AddButton("Ativar Anti-Kick", function(...)
+    isAntiKickActive = not isAntiKickActive -- Alterna o estado
+    print("AntiKick status:", isAntiKickActive)
+
+    if isAntiKickActive then
+        AntiKick() -- Chama a função se ativado
+    end
+end
+
+-- Reduzir Gráficos
+local fpsToggle = ArceusUI:AddToggle("Reduzir Gráficos", function(myStatus, ...)
+    isOptimizing = myStatus 
+    print("Status do Toggle de Otimização de FPS/Ping:", myStatus)
+
+    if isOptimizing then
+        optimizeFpsPing() 
+    end
+end, false) -- Status inicial definido como falso    
+
 
 -- Iniciar a UI Arceus X
 ArceusUI:Start()
