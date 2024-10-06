@@ -162,7 +162,7 @@ local myToggle = ArceusUI:AddToggle("Aros V1", function(myStatus, ...)
 end, false) -- Status inicial definido como falso
 
 -- Aros V2
-local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatus, ...)
+local farmingV2Toggle = ArceusUI:AddToggle("Aros V2", function(myStatus, ...)
     isFarmingV2 = myStatus -- Atualiza a variável isFarmingV2
     print("Status do Toggle de Farming V2:", myStatus)
 
@@ -174,6 +174,12 @@ local farmingV2Toggle = ArceusUI:AddToggle("Ativar Farming V2", function(myStatu
         end
     end
 end, false) 
+
+-- Info Extras
+local myButton = ArceusUI:AddButton("Extras ↓", function(...)
+    print("Button was pressed!")
+end)
+
 
 -- Botão para ativar o AntiKick
 local myButton = ArceusUI:AddButton("Ativar AntiKick", function(...)
